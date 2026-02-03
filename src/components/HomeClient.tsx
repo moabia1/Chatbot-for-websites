@@ -46,7 +46,7 @@ const HomeClient = () => {
 
                 <div className="flex gap-4">
                   {isSignedIn ? (
-                    <Button>Go to Dashboard</Button>
+                    <Button onClick={()=>router.push("/dashboard")}>Go to Dashboard</Button>
                   ) : (
                     <Button onClick={() => router.push("/sign-up")}>
                       Get Started
