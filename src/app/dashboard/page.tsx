@@ -1,4 +1,5 @@
 "use client"
+import DashboardClient from "@/components/DashboardClient";
 import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
@@ -9,5 +10,7 @@ export default function DashboardPage() {
     redirect("/sign-in");
   }
 
-  return <div>Dashboard</div>;
+  return <div>
+    <DashboardClient ownerId={userId} />
+  </div>;
 }
