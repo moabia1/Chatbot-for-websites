@@ -1,6 +1,6 @@
-import { generateAI } from "@/app/service/ai.service";
 import connectDB from "@/lib/db";
 import { Settings } from "@/model/settings.model";
+import { GoogleGenAI } from "@google/genai";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -49,13 +49,39 @@ ${message}
 ANSWER
 -----------------
 `;
+    
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! })
+    const res = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents:prompt
+    })
+    
+    const response = await NextResponse.json(res.text)
 
-    const text = await generateAI(prompt)
+    response.headers.set("Access-Control-Allow-Origin", "*")
+    response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    response.headers.set("Access-Control-Allow-Headers", "Content-Type")
 
-    return NextResponse.json({response:text})
+    return response
   } catch (error) {
-    return NextResponse.json({
+    const response = NextResponse.json({
         message:`Chat error ${error}`
-      },{status:400})
+    }, { status: 400 })
+    
+    response.headers.set("Access-Control-Allow-Origin", "*")
+    response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    response.headers.set("Access-Control-Allow-Headers", "Content-Type")
+
+    return response
   }
+}
+
+export const OPTIONS = async () => {
+  return NextResponse.json(null, {
+    status: 201, headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type"
+    }
+  })
 }

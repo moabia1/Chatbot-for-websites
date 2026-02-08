@@ -7,8 +7,10 @@ import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { Spinner } from "./ui/spinner";
+import { useRouter } from "next/navigation";
 
 const DashboardClient = ({ ownerId }: { ownerId: string }) => {
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
 
@@ -92,7 +94,7 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
                   )}
                 />
               </Button>
-              <Button>Embed Chat</Button>
+              <Button onClick={() => router.push("/embed")}>Embed Chat</Button>
             </div>
           </div>
         </header>

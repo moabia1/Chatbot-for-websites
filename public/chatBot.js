@@ -11,7 +11,7 @@
   }
 
   const button = document.createElement("div");
-  button.innerHTML = "📩";
+  button.innerHTML = "💬";
 
   Object.assign(button.style, {
     position: "fixed",
