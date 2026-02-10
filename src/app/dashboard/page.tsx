@@ -4,8 +4,9 @@ import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 export default function DashboardPage() {
-  const { userId } = useAuth();
+  const { userId, isLoaded } = useAuth();
 
+  if(!isLoaded) return null;
   if (!userId) {
     redirect("/sign-in");
   }
